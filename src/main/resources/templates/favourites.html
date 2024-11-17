@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Ulubione Piwa</title>
+</head>
+<body>
+<h1>Twoje ulubione piwa</h1>
+<ul>
+    <li th:each="beer : ${favorites}">
+        <h3 th:text="${beer.name}"></h3>
+        <p th:text="${beer.description}"></p>
+        <img th:src="@{${beer.imageUrl}}" alt="Beer Image" style="max-width: 200px; height: auto;">
+    </li>
+</ul>
+</body>
+</html>

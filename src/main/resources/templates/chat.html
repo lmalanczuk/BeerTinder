@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>BeerTinder Chat</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .chat-container {
+            max-width: 600px;
+            margin: 50px auto;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .messages {
+            height: 300px;
+            overflow-y: scroll;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #f9f9f9;
+        }
+        .message {
+            margin: 5px 0;
+        }
+        .message .sender {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="chat-container">
+    <h2>BeerTinder Chat</h2>
+    <div class="messages" id="messages"></div>
+    <input type="text" id="sender" placeholder="Your name" style="width: 100%; margin-bottom: 10px;">
+    <input type="text" id="content" placeholder="Type a message" style="width: 100%; margin-bottom: 10px;">
+    <button onclick="sendMessage()">Send</button>
+</div>
+
+<script>
+    let stompClient = null;
+
+    function connect() {
+        const socket = new SockJS('/ws');
+        stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, function () {
+            console.log('Connected to WebSocket');
+            stompClient.subscribe('/topic/public', function (messageOutput) {
+                showMessage(JSON.parse(messageOutput.body));
+            });
+        });
+    }
+
+    function sendMessage() {
+        const sender = document.getElementById('sender').value;
+        const content = document.getElementById('content').value;
+
+        if (!sender || !content) {
+            alert('Please enter your name and a message!');
+            return;
+        }
+
+        const chatMessage = {
+            sender: sender,
+            content: content,
+            type: 'CHAT'
+        };
+
+        stompClient.send('/app/chat.sendMessage', {}, JSON.stringify(chatMessage));
+        document.getElementById('content').value = ''; // Clear the input field
+    }
+
+    function showMessage(message) {
+        const messagesDiv = document.getElementById('messages');
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message');
+
+        messageElement.innerHTML = `<span class="sender">${message.sender}:</span> ${message.content}`;
+        messagesDiv.appendChild(messageElement);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to the bottom
+    }
+
+    connect(); // Establish WebSocket connection on page load
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Swipe Piwa</title>
+    <style>
+        .beer-container {
+            text-align: center;
+            margin: 50px auto;
+        }
+        .beer-container img {
+            max-width: 300px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+    </style>
+    <script>
+        function swipe(direction) {
+            fetch('/api/beers/swipe', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ beerId: document.getElementById('beerId').value, direction: direction })
+            }).then(() => {
+                location.reload(); // Załaduj następne piwo
+            });
+        }
+    </script>
+</head>
+<body>
+<div class="beer-container">
+    <h1>Oceń piwo</h1>
+    <img th:src="@{${beer.imageUrl}}" alt="Beer Image">
+    <h2 th:text="${beer.name}">Beer Name</h2>
+    <p th:text="${beer.description}">Beer Description</p>
+    <input type="hidden" id="beerId" th:value="${beer.id}">
+    <button onclick="swipe('like')">Lubię</button>
+    <button onclick="swipe('dislike')">Nie lubię</button>
+</div>
+</body>
+</html>
