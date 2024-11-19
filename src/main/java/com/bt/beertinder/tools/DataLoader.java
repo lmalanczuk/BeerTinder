@@ -34,25 +34,25 @@ public class DataLoader {
                 Beer.builder()
                     .name("Tyskie")
                     .description("Popularne polskie piwo jasne pełne o zbalansowanym smaku.")
-                    .imageUrl("https://example.com/tyskie.jpg")
+                    .imageUrl("https://duzyben.pl/hpeciai/3e1a739bb0266d9e4ef9737e1d06a4ea/pol_pl_PIWO-TYSKIE-GRONIE-5-2-0-5L-BUT-ZW-54_1_1.jpg")
                     .build(),
 
                 Beer.builder()
                     .name("Heineken")
                     .description("Międzynarodowe piwo premium typu pilzner o charakterystycznej goryczce.")
-                    .imageUrl("https://example.com/heineken.jpg")
+                    .imageUrl("https://duzyben.pl/hpeciai/f62cf813b1957724c036754c86eda7f4/pol_pl_PIWO-HEINEKEN-0-5L-BUT-BZW-59_1_1.jpg")
                     .build(),
 
                 Beer.builder()
                     .name("Guinness")
                     .description("Irlandzkie piwo typu stout o kremowej pianie i kawowym posmaku.")
-                    .imageUrl("https://example.com/guinness.jpg")
+                    .imageUrl("https://kulturasmaku.pl/zdjecia/produkt/23413/6146/0x992/3m/Piwo_Guinness_0_5l_KulturaSmaku.jpg")
                     .build(),
 
                 Beer.builder()
                     .name("Corona")
                     .description("Lekkie meksykańskie piwo typu lager, idealne na upalne dni.")
-                    .imageUrl("https://example.com/corona.jpg")
+                    .imageUrl("https://kulturasmaku.pl/zdjecia/produkt/15633/3784/0x992/3m/Piwo_Corona_Extra_0_355l_KulturaSmaku.jpg.jpg")
                     .build()
             );
 
