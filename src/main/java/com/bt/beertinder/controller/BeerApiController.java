@@ -1,7 +1,10 @@
 package com.bt.beertinder.controller;
 
+import com.bt.beertinder.model.Beer;
 import com.bt.beertinder.service.BeerService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/beers")

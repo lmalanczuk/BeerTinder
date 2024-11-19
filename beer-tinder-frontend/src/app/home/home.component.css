@@ -1,0 +1,13 @@
+.welcome-container {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.options {
+  margin-top: 20px;
+}
+
+.options button {
+  margin: 10px;
+  width: 250px;
+}

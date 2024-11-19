@@ -1,0 +1,21 @@
+<div class="container">
+  <!-- Karta z piwem -->
+  <p-card *ngIf="currentBeer" [header]="currentBeer.name" styleClass="beer-card">
+    <img [src]="currentBeer.imageUrl" alt="Beer Image" class="beer-image" />
+    <p>{{ currentBeer.description }}</p>
+    <!-- Przycisk "like" i "dislike" -->
+    <div class="buttons">
+      <!-- Przycisk 'Like' -->
+      <button pButton type="button" label="Like" icon="pi pi-thumbs-up"
+              (click)="swipeBeer(currentBeer.id, 'like')"></button>
+
+      <!-- Przycisk 'Dislike' -->
+      <button pButton type="button" label="Dislike" icon="pi pi-thumbs-down"
+              (click)="swipeBeer(currentBeer.id, 'dislike')"></button>
+
+    </div>
+  </p-card>
+
+  <p-button pButton type="back-button" label="Back to Home" icon="pi pi-home" (click)="goToHome()"></p-button>
+
+</div>
