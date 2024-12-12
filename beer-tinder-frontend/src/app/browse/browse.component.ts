@@ -27,6 +27,7 @@ export class BrowseComponent implements OnInit {
 
   beers: Beer[] = [];
   currentBeerIndex: number = 0;
+  currentUser = {id: 1};
 
   apiUrl = 'http://localhost:8080/api/beers'; // Adres backendu
 
@@ -50,13 +51,27 @@ export class BrowseComponent implements OnInit {
     });
   }
 
-  swipeBeer(beerId: number, direction: string) {
-    const swipeUrl = `${this.apiUrl}/swipe`;
-    this.http.post(swipeUrl, { beerId, direction }).subscribe(() => {
-      console.log(`${direction === 'like' ? 'Liked' : 'Disliked'}: Beer ID ${beerId}`);
+  swipeBeer(direction: string): void {
+    const currentBeer = this.beers[this.currentBeerIndex]; // Aktualne piwo
+
+    this.http.post(`${this.apiUrl}/preferences`, {
+      beerId: currentBeer.id,
+      userId: this.currentUser.id,
+      liked: direction === 'like'
+    }).subscribe(() => {
+      console.log(`${direction === 'like' ? 'Liked' : 'Disliked'}: Beer ID ${currentBeer.id}`);
+
+      // Przejście do kolejnego piwa
       this.currentBeerIndex++;
+      if (this.currentBeerIndex >= this.beers.length) {
+        console.log('No more beers to display');
+        this.currentBeerIndex = 0; // Resetuj indeks, jeśli to konieczne
+      }
     });
   }
+
+
+
 
   /*swipe(direction: string): void {
     if (this.currentBeer) {
@@ -73,17 +88,14 @@ export class BrowseComponent implements OnInit {
     }
   }*/
 
-  likeBeer() {
-    if (this.currentBeer) {
-      this.swipeBeer(this.currentBeer.id, 'like');
-    }
+  likeBeer(): void {
+    this.swipeBeer('like'); // Przekaż tylko kierunek
   }
 
-  dislikeBeer() {
-    if (this.currentBeer) {
-      this.swipeBeer(this.currentBeer.id, 'dislike');
-    }
+  dislikeBeer(): void {
+    this.swipeBeer('dislike'); // Przekaż tylko kierunek
   }
+
 
   onDragEnd(event: CdkDragEnd): void {
     const x = event.distance.x;
@@ -94,4 +106,10 @@ export class BrowseComponent implements OnInit {
     }
   }
 
+  savePreference(beerId: number, liked: boolean): void {
+    const preference = { userId: this.currentUser.id, beerId, liked};
+    this.http.post('http://localhost:8080/api/preferences', preference).subscribe(() => {
+      console.log(`Preference saved: ${liked ? 'Liked' : 'Disliked'} beer ID ${beerId}`);
+    });
+  }
 }

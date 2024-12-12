@@ -1,21 +1,13 @@
-<div class="container">
-  <!-- Karta z piwem -->
-  <p-card *ngIf="currentBeer" [header]="currentBeer.name" styleClass="beer-card">
-    <img [src]="currentBeer.imageUrl" alt="Beer Image" class="beer-image" />
-    <p>{{ currentBeer.description }}</p>
-    <!-- Przycisk "like" i "dislike" -->
-    <div class="buttons">
-      <!-- Przycisk 'Like' -->
-      <button pButton type="button" label="Like" icon="pi pi-thumbs-up"
-              (click)="swipeBeer(currentBeer.id, 'like')"></button>
-
-      <!-- Przycisk 'Dislike' -->
-      <button pButton type="button" label="Dislike" icon="pi pi-thumbs-down"
-              (click)="swipeBeer(currentBeer.id, 'dislike')"></button>
-
-    </div>
+<div class="browse-container">
+  <p-card header="{{ beers[currentBeerIndex]?.name }}" styleClass="ui-card-shadow">
+    <img [src]="beers[currentBeerIndex]?.imageUrl" alt="{{ beers[currentBeerIndex]?.name }}" width="100%">
+    <p>{{ beers[currentBeerIndex]?.description }}</p>
   </p-card>
 
-  <p-button pButton type="back-button" label="Back to Home" icon="pi pi-home" (click)="goToHome()"></p-button>
-
+  <div class="button-container">
+    <button pButton type="button" label="Dislike" icon="pi pi-thumbs-down" class="dislike-button"
+            (click)="swipeBeer('dislike')"></button>
+    <button pButton type="button" label="Like" icon="pi pi-thumbs-up" class="like-button"
+            (click)="swipeBeer('like')"></button>
+  </div>
 </div>

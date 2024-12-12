@@ -1,0 +1,19 @@
+.favorites-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.beer-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.beer-card {
+  width: 300px;
+}
+
+.back-button {
+  margin-top: 20px;
+}

@@ -1,1 +1,12 @@
-<p>favorites works!</p>
+<div class="favorites-container">
+  <h2>Your Favorite Beers</h2>
+  <div class="beer-list">
+    <div *ngFor="let beer of likedBeers" class="beer-card">
+      <p-card header="{{ beer.name }}" styleClass="ui-card-shadow">
+        <img [src]="beer.imageUrl" alt="{{ beer.name }}" width="100%">
+        <p>{{ beer.description }}</p>
+      </p-card>
+    </div>
+  </div>
+  <button pButton label="Back to Home" routerLink="/home" class="back-button"></button>
+</div>
