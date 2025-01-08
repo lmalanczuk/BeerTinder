@@ -1,7 +1,12 @@
 package com.bt.beertinder.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
@@ -16,11 +21,12 @@ public class Preference {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+   @JsonBackReference
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "beer_id", nullable = false)
     private Beer beer;
 
-    private Boolean liked; // true = swipe right, false = swipe left
+    private Boolean liked;
 }

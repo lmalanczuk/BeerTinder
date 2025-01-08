@@ -1,4 +1,5 @@
 package com.bt.beertinder.model;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,19 +13,19 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ChatMessage {
+public class Match {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String sender;
-
-    private String content;
-
-    private LocalDateTime timestamp;
+    @ManyToOne
+    @JoinColumn(name = "user1_id", nullable = false)
+    private User user1;
 
     @ManyToOne
-    @JoinColumn(name = "chat_room_id", nullable = false)
-    private ChatRoom chatRoom;
+    @JoinColumn(name = "user2_id", nullable = false)
+    private User user2;
+
+    private LocalDateTime matchedAt;
 }
