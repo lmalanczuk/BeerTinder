@@ -429,7 +429,7 @@ import java.util.List;
 @Configuration
 public class DataLoader {
 
-    @Bean
+    /*@Bean
     CommandLineRunner initDatabase(
             BeerRepository beerRepository,
             UserRepository userRepository,
@@ -523,5 +523,5 @@ public class DataLoader {
             System.out.println("Added " + matches.size() + " matches");
             System.out.println("Added " + chatRooms.size() + " chat rooms");
         };
-    }
+    }*/
 }

@@ -1,5 +1,7 @@
 package com.bt.beertinder.service.impl;
 
+import com.bt.beertinder.controller.PreferenceController;
+import com.bt.beertinder.dto.BeerDTO;
 import com.bt.beertinder.model.Beer;
 import com.bt.beertinder.model.Preference;
 import com.bt.beertinder.model.User;
@@ -8,6 +10,10 @@ import com.bt.beertinder.repository.PreferenceRepository;
 import com.bt.beertinder.repository.UserRepository;
 import com.bt.beertinder.service.PreferenceService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PreferenceServiceImpl implements PreferenceService {
@@ -24,15 +30,33 @@ public class PreferenceServiceImpl implements PreferenceService {
 
     @Override
     public void addPreference(Long userId, Long beerId, Boolean liked) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
-        Beer beer = beerRepository.findById(beerId).orElseThrow(() -> new IllegalArgumentException("Beer not found with id: " + beerId));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        Beer beer = beerRepository.findById(beerId)
+                .orElseThrow(() -> new RuntimeException("Beer not found"));
 
-        Preference preference = Preference.builder()
-                .user(user)
-                .beer(beer)
-                .liked(liked)
-                .build();
+        List<Preference> existingPreferences = preferenceRepository.findByUserAndBeer(user, beer);
 
-        preferenceRepository.save(preference);
+        if (!existingPreferences.isEmpty()) {
+            // Aktualizujemy tylko pierwszą preferencję (zakładając, że nie chcemy duplikatów)
+            Preference preference = existingPreferences.get(0);
+            preference.setLiked(liked);
+            preferenceRepository.save(preference);
+        } else {
+            // Jeśli nie ma jeszcze preferencji, tworzymy nową
+            Preference preference = new Preference();
+            preference.setUser(user);
+            preference.setBeer(beer);
+            preference.setLiked(liked);
+            preferenceRepository.save(preference);
+        }
+    }
+
+
+    public List<BeerDTO> getLikedBeers(Long userId) {
+        List<Preference> likedPreferences = preferenceRepository.findByUserIdAndLiked(userId, true);
+        return likedPreferences.stream()
+                .map(pref -> new BeerDTO(pref.getBeer().getId(), pref.getBeer().getName(), pref.getBeer().getDescription(), pref.getBeer().getImageUrl()))
+                .collect(Collectors.toList());
     }
 }

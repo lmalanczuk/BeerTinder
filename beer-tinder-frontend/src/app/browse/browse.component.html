@@ -17,5 +17,16 @@
   </p-card>
 
   <p-button pButton type="back-button" label="Back to Home" icon="pi pi-home" (click)="goToHome()"></p-button>
+</div>
 
+<div class="liked-beers">
+  <h2>Polubione piwa:</h2>
+  <ul>
+    <li *ngFor="let beer of likedBeers">
+      <p-card [header]="beer.name">
+        <img [src]="beer.imageUrl" alt="Beer Image" class="beer-image" />
+        <p>{{ beer.description }}</p>
+      </p-card>
+    </li>
+  </ul>
 </div>

@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {CdkDragEnd, DragDropModule} from '@angular/cdk/drag-drop';
 import {ButtonModule} from 'primeng/button';
 import {CardModule} from 'primeng/card';
-import {HttpClient, provideHttpClient} from '@angular/common/http';
-import {NgIf} from '@angular/common';
+import {HttpClient, HttpHeaders, provideHttpClient} from '@angular/common/http';
+import {NgIf, CommonModule } from '@angular/common';
 import {Router} from '@angular/router';
 
 
@@ -17,7 +17,7 @@ interface Beer {
 @Component({
   selector: 'app-browse',
   standalone: true,
-  imports: [DragDropModule, ButtonModule, CardModule, NgIf],
+  imports: [DragDropModule, ButtonModule, CardModule, NgIf, CommonModule],
   templateUrl: './browse.component.html',
   styleUrl: './browse.component.css'
 })
@@ -27,8 +27,10 @@ export class BrowseComponent implements OnInit {
 
   beers: Beer[] = [];
   currentBeerIndex: number = 0;
+  likedBeers: Beer[] = [];
 
   apiUrl = 'http://localhost:8080/api/beers'; // Adres backendu
+  userPreferencesUrl = 'http://localhost:8080/api/preferences/1/liked'; // Zakładając ID użytkownika = 1
 
   goToHome(): void {
     this.router.navigate(['/']); // Przekierowanie na stronę główną
@@ -36,6 +38,7 @@ export class BrowseComponent implements OnInit {
 
   ngOnInit(){
     this.fetchBeers();
+    this.fetchUserPreferences();
   }
 
   get currentBeer(): Beer | null {
@@ -50,34 +53,48 @@ export class BrowseComponent implements OnInit {
     });
   }
 
-  swipeBeer(beerId: number, direction: string) {
-    const swipeUrl = `${this.apiUrl}/swipe`;
-    this.http.post(swipeUrl, { beerId, direction }).subscribe(() => {
-      console.log(`${direction === 'like' ? 'Liked' : 'Disliked'}: Beer ID ${beerId}`);
-      this.currentBeerIndex++;
+  fetchUserPreferences() {
+    const userId = 1; // Możesz pobrać dynamicznie z systemu logowania
+    const preferencesUrl = `http://localhost:8080/api/preferences/${userId}/liked`;
+
+    this.http.get<Beer[]>(preferencesUrl).subscribe((data) => {
+      this.likedBeers = data;
+    }, error => {
+      console.error('Error fetching liked beers:', error);
     });
   }
 
-  /*swipe(direction: string): void {
-    if (this.currentBeer) {
-      console.log(`Swiped ${direction} on beer: ${this.currentBeer.name}`);
-      // Możesz tutaj dodać logikę do przetwarzania lajków/dislajków
-      // np. wywołanie odpowiedniej metody backendu.
-      // Następnie wybierz następne piwo (jeśli istnieje).
-      const currentIndex = this.beers.indexOf(this.currentBeer);
-      if (direction === 'like' && currentIndex < this.beers.length - 1) {
-        this.currentBeer = this.beers[currentIndex + 1];
-      } else if (direction === 'dislike' && currentIndex < this.beers.length - 1) {
-        this.currentBeer = this.beers[currentIndex + 1];
-      }
-    }
-  }*/
+  swipeBeer(beerId: number, direction: string) {
+    const userId = 1; // Możesz pobrać dynamicznie
+    const liked = direction === 'like';
+
+    const requestBody = { userId, beerId, liked };
+    console.log('Sending request:', requestBody); // ✅ Sprawdzamy co Angular wysyła
+
+    const swipeUrl = 'http://localhost:8080/api/preferences/add';
+
+    this.http.post(swipeUrl, requestBody, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    })
+      .subscribe(() => {
+        console.log(`${liked ? 'Liked' : 'Disliked'}: Beer ID ${beerId}`);
+        this.currentBeerIndex++;
+      }, error => {
+        console.error('Error swiping beer:', error);
+      });
+  }
+
+
 
   likeBeer() {
     if (this.currentBeer) {
+      console.log('Liking beer:', this.currentBeer);
       this.swipeBeer(this.currentBeer.id, 'like');
+    } else {
+      console.error('No beer to like');
     }
   }
+
 
   dislikeBeer() {
     if (this.currentBeer) {
@@ -93,5 +110,4 @@ export class BrowseComponent implements OnInit {
       this.dislikeBeer();
     }
   }
-
 }

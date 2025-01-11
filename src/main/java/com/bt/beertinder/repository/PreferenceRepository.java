@@ -8,4 +8,5 @@ import java.util.Optional;
 @Repository
 public interface PreferenceRepository extends JpaRepository<Preference, Long> {
     List<Preference> findByUserIdAndLiked(Long userId, Boolean liked);
+    List<Preference> findByUserAndBeer(User user, Beer beer);
 }
