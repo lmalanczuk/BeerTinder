@@ -1,32 +1,33 @@
 <div class="container">
-  <!-- Karta z piwem -->
-  <p-card *ngIf="currentBeer" [header]="currentBeer.name" styleClass="beer-card">
-    <img [src]="currentBeer.imageUrl" alt="Beer Image" class="beer-image" />
-    <p>{{ currentBeer.description }}</p>
-    <!-- Przycisk "like" i "dislike" -->
-    <div class="buttons">
-      <!-- Przycisk 'Like' -->
-      <button pButton type="button" label="Like" icon="pi pi-thumbs-up"
-              (click)="swipeBeer(currentBeer.id, 'like')"></button>
+  <!-- Główna karta z piwem (wycentrowana) -->
+  <div class="beer-container">
+    <p-card *ngIf="currentBeer" [header]="currentBeer.name" styleClass="beer-card">
+      <img [src]="currentBeer.imageUrl" alt="Beer Image" class="beer-image" />
+      <p>{{ currentBeer.description }}</p>
+      <!-- Przycisk "like" i "dislike" -->
+      <div class="buttons">
+        <button pButton type="button" label="Like" icon="pi pi-thumbs-up"
+                (click)="swipeBeer(currentBeer.id, 'like')"></button>
 
-      <!-- Przycisk 'Dislike' -->
-      <button pButton type="button" label="Dislike" icon="pi pi-thumbs-down"
-              (click)="swipeBeer(currentBeer.id, 'dislike')"></button>
+        <button pButton type="button" label="Dislike" icon="pi pi-thumbs-down"
+                (click)="swipeBeer(currentBeer.id, 'dislike')"></button>
+      </div>
+    </p-card>
 
+    <p-button pButton type="back-button" label="Back to Home" icon="pi pi-home" (click)="goToHome()"></p-button>
+  </div>
+
+  <!-- Panel z polubionymi piwami -->
+  <div class="liked-beers-container">
+    <h2>Polubione piwa:</h2>
+    <div class="liked-beers">
+      <ul>
+        <li *ngFor="let beer of likedBeers" class="liked-beer-item">
+          <p-card [header]="beer.name" styleClass="mini-beer-card">
+            <img [src]="beer.imageUrl" alt="Beer Image" class="mini-beer-image" />
+          </p-card>
+        </li>
+      </ul>
     </div>
-  </p-card>
-
-  <p-button pButton type="back-button" label="Back to Home" icon="pi pi-home" (click)="goToHome()"></p-button>
-</div>
-
-<div class="liked-beers">
-  <h2>Polubione piwa:</h2>
-  <ul>
-    <li *ngFor="let beer of likedBeers">
-      <p-card [header]="beer.name">
-        <img [src]="beer.imageUrl" alt="Beer Image" class="beer-image" />
-        <p>{{ beer.description }}</p>
-      </p-card>
-    </li>
-  </ul>
+  </div>
 </div>

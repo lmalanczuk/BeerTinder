@@ -65,23 +65,22 @@ export class BrowseComponent implements OnInit {
   }
 
   swipeBeer(beerId: number, direction: string) {
-    const userId = 1; // Możesz pobrać dynamicznie
+    const userId = 1; // Pobierz dynamicznie z systemu logowania
     const liked = direction === 'like';
 
-    const requestBody = { userId, beerId, liked };
-    console.log('Sending request:', requestBody); // ✅ Sprawdzamy co Angular wysyła
-
     const swipeUrl = 'http://localhost:8080/api/preferences/add';
+    this.http.post(swipeUrl, { userId, beerId, liked }).subscribe(() => {
+      console.log(`${liked ? 'Liked' : 'Disliked'}: Beer ID ${beerId}`);
 
-    this.http.post(swipeUrl, requestBody, {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-    })
-      .subscribe(() => {
-        console.log(`${liked ? 'Liked' : 'Disliked'}: Beer ID ${beerId}`);
-        this.currentBeerIndex++;
-      }, error => {
-        console.error('Error swiping beer:', error);
-      });
+      if (liked && this.currentBeer) {
+        // Dodajemy polubione piwo do listy likedBeers
+        this.likedBeers.unshift(this.currentBeer);
+      }
+
+      this.currentBeerIndex++;
+    }, error => {
+      console.error('Error swiping beer:', error);
+    });
   }
 
 

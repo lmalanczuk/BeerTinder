@@ -1,15 +1,61 @@
 /* Wstaw to do pliku browse.component.css */
 .container {
   display: flex;
-  flex-direction: column; /* Ustawienie elementów w kolumnie */
-  justify-content: center; /* Wyśrodkowanie w pionie */
-  align-items: center; /* Wyśrodkowanie w poziomie */
-  height: 100vh; /* Wysokość na pełnym ekranie */
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  gap: 40px; /* Odstęp między panelami */
+}
+
+.beer-container {
+  flex: 1;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centrowanie karty piwa */
+  justify-content: center;
+}
+
+.liked-beers-container {
+  width: 250px;
+  max-height: 80vh; /* Maksymalna wysokość - 80% ekranu */
+  overflow-y: auto; /* Pozwala przewijać, jeśli lista jest długa */
+  padding: 10px;
+  border-left: 2px solid #ddd; /* Oddzielamy boczny panel */
+}
+
+.liked-beers {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.liked-beer-item {
+  margin-bottom: 10px;
+}
+
+.mini-beer-card {
+  width: 100%; /* Dopasowanie do szerokości panelu */
+  padding: 5px;
+  text-align: center;
+}
+
+.mini-beer-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover; /* Dopasowanie obrazka */
+  border-radius: 8px;
 }
 
 .buttons {
   display: flex;
   gap: 20px; /* Odstęp między przyciskami */
+}
+
+.beer-card {
+  width: 100%;
+  max-width: 500px; /* Maksymalna szerokość karty piwa */
+  text-align: center;
 }
 
 .beer-image {
