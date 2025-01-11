@@ -59,4 +59,22 @@ public class PreferenceServiceImpl implements PreferenceService {
                 .map(pref -> new BeerDTO(pref.getBeer().getId(), pref.getBeer().getName(), pref.getBeer().getDescription(), pref.getBeer().getImageUrl()))
                 .collect(Collectors.toList());
     }
+
+    public void removePreference(Long userId, Long beerId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Beer beer = beerRepository.findById(beerId)
+                .orElseThrow(() -> new RuntimeException("Beer not found"));
+
+        List<Preference> preferences = preferenceRepository.findByUserAndBeer(user, beer);
+
+        if (!preferences.isEmpty()) {
+            preferenceRepository.delete(preferences.get(0)); // Usuwamy pierwsze wystąpienie
+            System.out.println("Preference removed: User " + userId + " - Beer " + beerId);
+        } else {
+            System.out.println("No preference found for user " + userId + " and beer " + beerId);
+        }
+    }
+
 }

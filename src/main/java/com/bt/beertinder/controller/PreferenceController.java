@@ -44,5 +44,15 @@ public class PreferenceController {
         }
     }
 
+    @DeleteMapping("/{userId}/remove/{beerId}")
+    public ResponseEntity<Void> removePreference(@PathVariable Long userId, @PathVariable Long beerId) {
+        try {
+            preferenceService.removePreference(userId, beerId);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
 

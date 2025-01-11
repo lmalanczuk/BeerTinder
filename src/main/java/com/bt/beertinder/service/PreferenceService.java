@@ -10,4 +10,6 @@ public interface PreferenceService {
     void addPreference(Long userId, Long beerId, Boolean liked);
 
     public List<BeerDTO> getLikedBeers(Long userId);
+
+    public void removePreference(Long userId, Long beerId);
 }

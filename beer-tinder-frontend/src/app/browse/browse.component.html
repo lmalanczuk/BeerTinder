@@ -25,6 +25,11 @@
         <li *ngFor="let beer of likedBeers" class="liked-beer-item">
           <p-card [header]="beer.name" styleClass="mini-beer-card">
             <img [src]="beer.imageUrl" alt="Beer Image" class="mini-beer-image" />
+            <!-- Przycisk "X" do usunięcia piwa -->
+            <button pButton type="button" icon="pi pi-times"
+                    class="remove-button"
+                    (click)="removeBeerFromPreferences(beer.id)">
+            </button>
           </p-card>
         </li>
       </ul>

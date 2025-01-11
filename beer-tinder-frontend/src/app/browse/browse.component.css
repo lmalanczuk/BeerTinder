@@ -31,19 +31,21 @@
 }
 
 .liked-beer-item {
+  position: relative;
   margin-bottom: 10px;
 }
 
 .mini-beer-card {
-  width: 100%; /* Dopasowanie do szerokości panelu */
+  width: 100%;
   padding: 5px;
   text-align: center;
+  position: relative;
 }
 
 .mini-beer-image {
   width: 100px;
   height: 100px;
-  object-fit: cover; /* Dopasowanie obrazka */
+  object-fit: cover;
   border-radius: 8px;
 }
 
@@ -68,4 +70,22 @@
 
 .back-button {
   margin-top: 20px;
+}
+
+.remove-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.remove-button:hover {
+  background: darkred;
 }

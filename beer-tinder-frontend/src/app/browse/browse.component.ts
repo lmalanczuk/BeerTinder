@@ -109,4 +109,25 @@ export class BrowseComponent implements OnInit {
       this.dislikeBeer();
     }
   }
+
+  removeBeerFromPreferences(beerId: number) {
+    const userId = 1; // Pobierz dynamicznie, jeśli masz system logowania
+
+    // Pytanie użytkownika o potwierdzenie
+    if (!confirm("Czy na pewno chcesz usunąć to piwo ze swoich ulubionych?")) {
+      return;
+    }
+
+    const removeUrl = `http://localhost:8080/api/preferences/${userId}/remove/${beerId}`;
+
+    this.http.delete(removeUrl).subscribe({
+      next: () => {
+        console.log(`Removed beer ID ${beerId} from preferences`);
+        this.likedBeers = this.likedBeers.filter(beer => beer.id !== beerId);
+      },
+      error: (error) => {
+        console.error('Error removing beer:', error);
+      }
+    });
+  }
 }
