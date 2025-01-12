@@ -4,14 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SwipeRequest {
-    private Long userId;
-    private Long beerId;
-    private boolean liked;
-
-
+public class ChatRoomDTO {
+    private Long id;
+    private List<Long> participantIds; // Lista ID uczestników pokoju
 }
-

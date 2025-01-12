@@ -9,6 +9,7 @@ import com.bt.beertinder.service.MatchService;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,15 +41,21 @@ public class MatchServiceImpl implements MatchService {
 
     @Override
     public Match createMatch(Long user1Id, Long user2Id) {
-        User user1 = userRepository.findById(user1Id).orElseThrow(() -> new IllegalArgumentException("User not found with id: " + user1Id));
-        User user2 = userRepository.findById(user2Id).orElseThrow(() -> new IllegalArgumentException("User not found with id: " + user2Id));
-
-        Match match = Match.builder()
-                .user1(user1)
-                .user2(user2)
-                .matchedAt(LocalDateTime.now())
-                .build();
-
-        return matchRepository.save(match);
+    Optional<Match> existingMatch = matchRepository.findByUser1IdAndUser2IdOrUser2IdAndUser1Id(user1Id, user2Id, user1Id, user2Id);
+    if (existingMatch.isPresent()) {
+        throw new RuntimeException("Match already exists");
     }
+
+    User user1 = userRepository.findById(user1Id).orElseThrow(() -> new RuntimeException("User not found"));
+    User user2 = userRepository.findById(user2Id).orElseThrow(() -> new RuntimeException("User not found"));
+
+    Match match = Match.builder()
+            .user1(user1)
+            .user2(user2)
+            .matchedAt(LocalDateTime.now())
+            .build();
+
+    return matchRepository.save(match);
+}
+
 }

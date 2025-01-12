@@ -7,11 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SwipeRequest {
+public class UserSwipeDTO {
     private Long userId;
-    private Long beerId;
-    private boolean liked;
-
-
+    private Long targetUserId;
+    private Boolean liked;
 }
-

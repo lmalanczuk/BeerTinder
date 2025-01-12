@@ -1,4 +1,5 @@
 package com.bt.beertinder.model;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,10 +16,8 @@ import java.util.List;
 public class ChatRoom {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Sekwencyjne generowanie ID
     private Long id;
-
-    private String roomId; // UUID dla unikalnego identyfikatora pokoju
 
     @ManyToMany
     @JoinTable(

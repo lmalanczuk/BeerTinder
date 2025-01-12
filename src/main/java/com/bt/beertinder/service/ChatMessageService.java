@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface ChatMessageService {
     void saveMessage(Long chatRoomId, String sender, String content);
-    List<ChatMessage> getMessagesForRoom(Long chatRoomId);
+    List<ChatMessage> getMessagesForRoom(Long chatRoomId, int page, int size);
 }

@@ -1,5 +1,6 @@
 package com.bt.beertinder.controller;
 
+import com.bt.beertinder.dto.UserProfileDTO;
 import com.bt.beertinder.model.User;
 import com.bt.beertinder.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +29,9 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/{id}/profile")
-    public ResponseEntity<Optional<User>> getUserProfile(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getUserById(id));
+    @GetMapping("/{userId}/profile")
+    public ResponseEntity<UserProfileDTO> getUserProfile(@PathVariable Long userId) {
+        UserProfileDTO userProfile = userService.getUserProfile(userId);
+        return ResponseEntity.ok(userProfile);
     }
 }
