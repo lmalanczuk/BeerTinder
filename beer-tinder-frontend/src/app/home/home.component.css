@@ -3,11 +3,22 @@
   margin-top: 50px;
 }
 
-.options {
-  margin-top: 20px;
+h1 {
+  font-size: 36px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
 }
 
-.options button {
-  margin: 10px;
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.p-button-raised.p-button-rounded {
   width: 250px;
+  height: 50px;
+  font-size: 16px;
 }

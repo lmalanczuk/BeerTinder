@@ -1,0 +1,16 @@
+<div class="chat-container">
+  <h2>💬 Twoje czaty</h2>
+
+  <div *ngIf="chats.length > 0; else noChats">
+    <ul class="chat-list">
+      <li *ngFor="let chat of chats" class="chat-item">
+        <p>📩 Czat z <strong>{{ chat.partnerName }}</strong></p>
+        <button pButton type="button" label="Otwórz" class="open-chat-button" (click)="openChat(chat.id)"></button>
+      </li>
+    </ul>
+  </div>
+
+  <ng-template #noChats>
+    <p class="no-chats">❌ Brak aktywnych czatów.</p>
+  </ng-template>
+</div>

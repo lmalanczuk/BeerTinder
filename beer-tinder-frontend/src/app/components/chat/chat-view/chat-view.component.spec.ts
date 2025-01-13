@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FavoritesComponent } from './favorites.component';
+import { ChatViewComponent } from './chat-view.component';
 
-describe('FavoritesComponent', () => {
-  let component: FavoritesComponent;
-  let fixture: ComponentFixture<FavoritesComponent>;
+describe('ChatViewComponent', () => {
+  let component: ChatViewComponent;
+  let fixture: ComponentFixture<ChatViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FavoritesComponent]
+      imports: [ChatViewComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(FavoritesComponent);
+    fixture = TestBed.createComponent(ChatViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

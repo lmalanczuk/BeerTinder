@@ -1,0 +1,17 @@
+<div class="match-container">
+  <h2>🎯 Twoje dopasowania</h2>
+
+  <div *ngIf="matches.length > 0; else noMatches">
+    <ul class="match-list">
+      <li *ngFor="let match of matches" class="match-item">
+        <p>🔗 <strong>{{ match.user1Name }}</strong> i <strong>{{ match.user2Name }}</strong></p>
+        <p class="date">📅 Dopasowano: {{ match.matchedAt | date:'short' }}</p>
+        <button pButton type="button" label="Rozpocznij czat" class="chat-button" (click)="startChat(match.user2Id)"></button>
+      </li>
+    </ul>
+  </div>
+
+  <ng-template #noMatches>
+    <p class="no-matches">❌ Brak dopasowań. Polub więcej piw, aby znaleźć znajomych!</p>
+  </ng-template>
+</div>
