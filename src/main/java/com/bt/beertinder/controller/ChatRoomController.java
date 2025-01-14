@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/chatrooms")
@@ -39,4 +40,14 @@ public ResponseEntity<ChatRoomDTO> createRoom(@RequestParam Long user1Id, @Reque
         List<ChatMessage> messages = chatMessageService.getMessagesForRoom(chatRoomId, page, size);
         return ResponseEntity.ok(messages);
     }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<ChatRoomDTO>> getUserChatRooms(@PathVariable Long userId) {
+        List<ChatRoom> chatRooms = chatRoomService.getChatRoomsForUser(userId);
+        List<ChatRoomDTO> chatRoomDTOs = chatRooms.stream()
+                .map(chatRoomService::mapToDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(chatRoomDTOs);
+    }
+
 }

@@ -1,41 +1,42 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ChatService, Message } from '../../../services/chat.service';
+import { Router } from '@angular/router';
+import { ChatService, ChatRoom } from '../../../services/chat.service';
 import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
+import {Button, ButtonDirective} from 'primeng/button';
 
 @Component({
   selector: 'app-chat-view',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, Button, ButtonDirective],
   templateUrl: './chat-view.component.html',
-  styleUrl: './chat-view.component.css'
+  styleUrls: ['./chat-view.component.css']
 })
 export class ChatViewComponent implements OnInit {
-  chatId!: number;
-  messages: Message[] = [];
-  newMessage: string = '';
+  userId: number = 1; // Tymczasowe ID użytkownika
+  chatRooms: ChatRoom[] = [];
 
-  constructor(private route: ActivatedRoute, private chatService: ChatService) {}
+  constructor(private chatService: ChatService, private router: Router) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.chatId = +params['userId'];
-      this.loadMessages();
+    this.fetchChatRooms();
+  }
+
+  fetchChatRooms(): void {
+    this.chatService.getChatRoomsForUser(this.userId).subscribe({
+      next: (data: ChatRoom[]) => {
+        this.chatRooms = data;
+      },
+      error: (error: any) => {
+        console.error('Błąd pobierania czatów:', error);
+      }
     });
   }
 
-  loadMessages(): void {
-    this.chatService.getMessages(this.chatId).subscribe(messages => {
-      this.messages = messages;
-    });
+  openChat(chatRoomId: number): void {
+    this.router.navigate(['/chat', chatRoomId]);
   }
 
-  sendMessage(): void {
-    if (!this.newMessage.trim()) return;
-    this.chatService.sendMessage(this.chatId, this.newMessage).subscribe(() => {
-      this.newMessage = '';
-      this.loadMessages();
-    });
+  goToHome(): void {
+    this.router.navigate(['/']); // Przekierowanie na stronę główną
   }
 }

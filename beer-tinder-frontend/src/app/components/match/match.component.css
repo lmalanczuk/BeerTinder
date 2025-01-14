@@ -1,0 +1,30 @@
+.large-button {
+  font-size: 18px; /* Powiększona czcionka */
+  padding: 12px 20px; /* Większy padding */
+  background-color: #355691; /* Niebieski kolor */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-block;
+  margin-top: 10px;
+  transition: 0.3s;
+}
+
+.large-button:hover {
+  background-color: #355691; /* Ciemniejszy odcień niebieskiego */
+}
+
+.match-item {
+  padding: 15px;
+  border-radius: 8px;
+  background: #413F54;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.match-container {
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+}

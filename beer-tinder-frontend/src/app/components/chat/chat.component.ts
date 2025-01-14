@@ -1,39 +1,62 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import {Chat, ChatService} from '../../services/chat.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import { ChatService, Message } from '../../services/chat.service';
 import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {Button, ButtonDirective} from 'primeng/button';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, Button, ButtonDirective],
   templateUrl: './chat.component.html',
-  styleUrl: './chat.component.css'
+  styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
-  userId: number = 1; // Tymczasowo ID użytkownika
-  chats: Chat[] = []; // Lista aktywnych czatów
+  chatRoomId!: number;
+  messages: Message[] = [];
+  newMessage: string = '';
 
-  constructor(private chatService: ChatService, private router: Router) {}
+  constructor(private route: ActivatedRoute, private chatService: ChatService, private router: Router) {}
 
   ngOnInit(): void {
-    this.fetchChats();
-  }
+    this.route.params.subscribe(params => {
+      this.chatRoomId = +params['chatRoomId'];
+      this.loadMessages();
 
-  // Pobiera listę aktywnych czatów
-  fetchChats(): void {
-    this.chatService.getUserChats(this.userId).subscribe({
-      next: (data) => {
-        this.chats = data;
-      },
-      error: (error) => {
-        console.error('Błąd pobierania czatów:', error);
-      }
+      setInterval(() => this.loadMessages(), 5000); // 🔄 Automatyczne odświeżanie co 5 sek.
     });
   }
 
-  // Otwiera widok czatu
-  openChat(chatId: number): void {
-    this.router.navigate(['/chat', chatId]);
+
+  loadMessages(): void {
+    this.chatService.getMessages(this.chatRoomId).subscribe(messages => {
+      console.log("Otrzymane wiadomości:", messages); // ✅ Sprawdzenie danych
+      this.messages = messages;
+    });
+  }
+
+
+  sendMessage(): void {
+    if (!this.newMessage.trim()) return;
+
+    const newMsg: Message = {
+      id: Date.now(), // Tymczasowe ID
+      chatId: this.chatRoomId,
+      senderId: 1, // Symulujemy użytkownika nr 1
+      text: this.newMessage,
+      timestamp: new Date().toISOString()
+    };
+
+    this.messages.push(newMsg); // ✅ Dodajemy wiadomość lokalnie przed wysłaniem
+
+    this.chatService.sendMessage(this.chatRoomId, this.newMessage).subscribe(() => {
+      this.newMessage = ''; // Czyszczenie pola tekstowego
+      this.loadMessages(); // ✅ Pobranie aktualnych wiadomości z backendu
+    });
+  }
+
+  goToHome(): void {
+    this.router.navigate(['/chat']);
   }
 }

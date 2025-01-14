@@ -2,14 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-// Interfejs dla czatu
-export interface Chat {
+export interface ChatRoom {
   id: number;
-  partnerId: number;
-  partnerName: string;
+  participants: number[];
 }
 
-// Interfejs dla wiadomości w czacie
 export interface Message {
   id: number;
   chatId: number;
@@ -22,27 +19,20 @@ export interface Message {
   providedIn: 'root'
 })
 export class ChatService {
-  private apiUrl = 'http://localhost:8080/api/chat'; // Adres backendu
+  private apiUrl = 'http://localhost:8080/api/chatrooms';
 
   constructor(private http: HttpClient) {}
 
-  // Pobieranie listy czatów użytkownika
-  getUserChats(userId: number): Observable<Chat[]> {
-    return this.http.get<Chat[]>(`${this.apiUrl}/user/${userId}`);
+  getChatRoomsForUser(userId: number): Observable<ChatRoom[]> {
+    return this.http.get<ChatRoom[]>(`${this.apiUrl}/user/${userId}`);
   }
 
-  // Pobieranie wiadomości w czacie
-  getMessages(chatId: number): Observable<Message[]> {
-    return this.http.get<Message[]>(`${this.apiUrl}/${chatId}/messages`);
+  getMessages(chatRoomId: number): Observable<Message[]> {
+    return this.http.get<Message[]>(`${this.apiUrl}/${chatRoomId}/messages`);
   }
 
-  // Wysyłanie wiadomości do czatu
-  sendMessage(chatId: number, text: string): Observable<Message> {
-    return this.http.post<Message>(`${this.apiUrl}/${chatId}/messages`, { text });
+  sendMessage(chatRoomId: number, text: string): Observable<Message> {
+    return this.http.post<Message>(`http://localhost:8080/api/messages/${chatRoomId}`, { text });
   }
 
-  // Tworzenie nowego czatu (jeśli nie istnieje)
-  createChat(userId: number, targetUserId: number): Observable<Chat> {
-    return this.http.post<Chat>(`${this.apiUrl}/create`, { userId, targetUserId });
-  }
 }

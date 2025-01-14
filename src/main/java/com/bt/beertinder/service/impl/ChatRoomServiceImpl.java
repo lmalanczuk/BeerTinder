@@ -45,6 +45,12 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                         .collect(Collectors.toList())
         );
     }
+
+    @Override
+    public List<ChatRoom> getChatRoomsForUser(Long userId) {
+        return chatRoomRepository.findChatRoomsByUserId(userId);
+    }
+
 }
 
 

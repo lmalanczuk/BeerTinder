@@ -2,11 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Match, MatchService} from '../../services/match.service';
 import {CommonModule} from '@angular/common';
+import {Button, ButtonDirective} from 'primeng/button';
 
 @Component({
   selector: 'app-match',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, Button, ButtonDirective],
   templateUrl: './match.component.html',
   styleUrl: './match.component.css'
 })
@@ -18,6 +19,10 @@ export class MatchComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchMatches();
+  }
+
+  goToHome(): void {
+    this.router.navigate(['/']); // Przekierowanie na stronę główną
   }
 
   // Pobiera listę dopasowań

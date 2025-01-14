@@ -6,7 +6,11 @@
       <li *ngFor="let match of matches" class="match-item">
         <p>🔗 <strong>{{ match.user1Name }}</strong> i <strong>{{ match.user2Name }}</strong></p>
         <p class="date">📅 Dopasowano: {{ match.matchedAt | date:'short' }}</p>
-        <button pButton type="button" label="Rozpocznij czat" class="chat-button" (click)="startChat(match.user2Id)"></button>
+
+        <!-- Powiększony przycisk -->
+        <button pButton type="button" label="Rozpocznij czat" class="chat-button large-button" (click)="startChat(match.user2Id)">
+          💬 Rozpocznij czat
+        </button>
       </li>
     </ul>
   </div>
@@ -14,4 +18,5 @@
   <ng-template #noMatches>
     <p class="no-matches">❌ Brak dopasowań. Polub więcej piw, aby znaleźć znajomych!</p>
   </ng-template>
+  <p-button pButton type="back-button" label="Back to Home" icon="pi pi-home" (click)="goToHome()"></p-button>
 </div>

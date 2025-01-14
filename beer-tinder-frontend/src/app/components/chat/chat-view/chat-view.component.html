@@ -1,8 +1,21 @@
-<div class="chat-box">
-  <h2>💬 Rozmowa</h2>
-  <div class="messages">
-    <p *ngFor="let message of messages">{{ message.text }}</p>
+<div class="chat-view-container">
+  <h2>💬 Twoje czaty</h2>
+
+  <div *ngIf="chatRooms.length > 0; else noChats">
+    <ul class="chat-list">
+      <li *ngFor="let chat of chatRooms" class="chat-item">
+        <p>🗨️ Czat ID: <strong>{{ chat.id }}</strong></p>
+        <button pButton type="button" label="Otwórz czat" class="chat-button" (click)="openChat(chat.id)">
+          🔍 Otwórz
+        </button>
+      </li>
+    </ul>
   </div>
-  <input type="text" [(ngModel)]="newMessage" placeholder="Napisz wiadomość..." />
-  <button pButton type="button" label="Wyślij" (click)="sendMessage()"></button>
+
+  <ng-template #noChats>
+    <p class="no-chats">❌ Brak aktywnych czatów.</p>
+  </ng-template>
+  <p-button pButton type="back-button" label="Back to Home" icon="pi pi-home" (click)="goToHome()"></p-button>
 </div>
+
+

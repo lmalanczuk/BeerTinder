@@ -6,7 +6,6 @@ export const routes: Routes = [
   { path: 'home', loadComponent: () => import('./home/home.component').then(m => m.HomeComponent) },
   { path: 'browse-beers', loadComponent: () => import('./browse/browse.component').then(m => m.BrowseComponent) },
   { path: 'matches', loadComponent: () => import('./components/match/match.component').then(m => m.MatchComponent) },
-  { path: 'chat', loadComponent: () => import('./components/chat/chat.component').then(m => m.ChatComponent) },
-  { path: 'chat/:userId', loadComponent: () => import('./components/chat/chat-view/chat-view.component').then(m => m.ChatViewComponent) },
-
+  { path: 'chat', loadComponent: () => import('./components/chat/chat-view/chat-view.component').then(m => m.ChatViewComponent) },
+  { path: 'chat/:chatRoomId', loadComponent: () => import('./components/chat/chat.component').then(m => m.ChatComponent) }
 ];
