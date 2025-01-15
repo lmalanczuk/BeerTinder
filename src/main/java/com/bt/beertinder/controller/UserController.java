@@ -2,6 +2,7 @@ package com.bt.beertinder.controller;
 
 import com.bt.beertinder.dto.UserProfileDTO;
 import com.bt.beertinder.model.User;
+import com.bt.beertinder.service.CurrentUserService;
 import com.bt.beertinder.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +13,11 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
+    private final CurrentUserService currentUserService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, CurrentUserService currentUserService) {
         this.userService = userService;
+        this.currentUserService = currentUserService;
     }
 
     @PostMapping
@@ -33,5 +36,15 @@ public class UserController {
     public ResponseEntity<UserProfileDTO> getUserProfile(@PathVariable Long userId) {
         UserProfileDTO userProfile = userService.getUserProfile(userId);
         return ResponseEntity.ok(userProfile);
+    }
+
+    @GetMapping("/current/profile")
+    public ResponseEntity<UserProfileDTO> getCurrentUserProfile() {
+        UserProfileDTO userProfile = currentUserService.getCurrentUserProfile();
+        return ResponseEntity.ok(userProfile);
+    }
+    @GetMapping("/current/username")
+    public String getCurrentUsername() {
+        return currentUserService.getCurrentUsername();
     }
 }
