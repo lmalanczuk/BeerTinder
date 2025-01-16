@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {map, Observable} from 'rxjs';
 
 export interface ChatRoom {
   id: number;
-  participants: number[];
+  participants: string[];
 }
 
 export interface Message {
   id: number;
   chatId: number;
   senderId: number;
-  text: string;
+  content: string;
   timestamp: string;
 }
 
@@ -31,8 +31,22 @@ export class ChatService {
     return this.http.get<Message[]>(`${this.apiUrl}/${chatRoomId}/messages`);
   }
 
-  sendMessage(chatRoomId: number, text: string): Observable<Message> {
-    return this.http.post<Message>(`http://localhost:8080/api/messages/${chatRoomId}`, { text });
+  sendMessage(chatRoomId: number, sender: string, content: string): Observable<void> {
+    return this.http.post<void>(`http://localhost:8080/api/messages/${chatRoomId}`, {
+      sender: sender,
+      content: content
+    });
+  }
+
+  getCurrentUsername(): Observable<string> {
+    return this.http.get<{ username: string }>('http://localhost:8080/api/users/current/username')
+      .pipe(map(response => response.username));
+  }
+
+  getCurrentUserId(): Observable<number> {
+    return this.http.get<number>('http://localhost:8080/api/users/current/profile').pipe(
+      map((user: any) => user.id) // Zwracamy `id` użytkownika
+    );
   }
 
 }

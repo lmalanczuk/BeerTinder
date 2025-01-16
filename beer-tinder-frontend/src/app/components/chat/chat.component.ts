@@ -16,6 +16,9 @@ export class ChatComponent implements OnInit {
   chatRoomId!: number;
   messages: Message[] = [];
   newMessage: string = '';
+  receiverUsername: string | null = null;
+  currentUserId: number = 1; // Mockowane ID użytkownika, np. 1
+
 
   constructor(private route: ActivatedRoute, private chatService: ChatService, private router: Router) {}
 
@@ -31,30 +34,32 @@ export class ChatComponent implements OnInit {
 
   loadMessages(): void {
     this.chatService.getMessages(this.chatRoomId).subscribe(messages => {
-      console.log("Otrzymane wiadomości:", messages); // ✅ Sprawdzenie danych
+      console.log("Wiadomości w chat.component.ts:", messages);
       this.messages = messages;
     });
   }
 
 
+
+
   sendMessage(): void {
     if (!this.newMessage.trim()) return;
 
-    const newMsg: Message = {
-      id: Date.now(), // Tymczasowe ID
-      chatId: this.chatRoomId,
-      senderId: 1, // Symulujemy użytkownika nr 1
-      text: this.newMessage,
-      timestamp: new Date().toISOString()
-    };
-
-    this.messages.push(newMsg); // ✅ Dodajemy wiadomość lokalnie przed wysłaniem
-
-    this.chatService.sendMessage(this.chatRoomId, this.newMessage).subscribe(() => {
-      this.newMessage = ''; // Czyszczenie pola tekstowego
-      this.loadMessages(); // ✅ Pobranie aktualnych wiadomości z backendu
+    this.chatService.getCurrentUsername().subscribe((username: string) => {
+      this.chatService.sendMessage(this.chatRoomId, username, this.newMessage).subscribe(() => {
+        this.messages.push({
+          id: Date.now(), // Tymczasowe ID
+          chatId: this.chatRoomId,
+          senderId: 1, // Symulowany ID użytkownika (możesz go zmienić, jeśli masz więcej informacji)
+          content: this.newMessage,
+          timestamp: new Date().toISOString()
+        });
+        this.newMessage = ''; // Czyść pole tekstowe po wysłaniu
+        this.loadMessages(); // Odśwież wiadomości
+      });
     });
   }
+
 
   goToHome(): void {
     this.router.navigate(['/chat']);

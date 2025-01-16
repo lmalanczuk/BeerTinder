@@ -6,6 +6,9 @@ import com.bt.beertinder.service.CurrentUserService;
 import com.bt.beertinder.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -43,8 +46,13 @@ public class UserController {
         UserProfileDTO userProfile = currentUserService.getCurrentUserProfile();
         return ResponseEntity.ok(userProfile);
     }
+
     @GetMapping("/current/username")
-    public String getCurrentUsername() {
-        return currentUserService.getCurrentUsername();
+    public ResponseEntity<Map<String, String>> getCurrentUsername() {
+        String username = currentUserService.getCurrentUsername();
+        Map<String, String> response = new HashMap<>();
+        response.put("username", username);
+        return ResponseEntity.ok(response);
     }
+
 }

@@ -1,12 +1,19 @@
 <div class="chat-container">
   <div class="chat-header">💬 Czat</div>
-
-  <div class="messages-container">
-    <div *ngFor="let message of messages" class="message-box" [class.self]="message.senderId === 1">
-      <p class="message-text">{{ message.text }}</p>
-      <span class="timestamp">{{ message.timestamp | date:'shortTime' }}</span>
-    </div>
+  <div class="chat-header">
+    💬 Czat z {{ receiverUsername || 'Użytkownik' }}
   </div>
+
+
+
+  <div *ngFor="let message of messages" class="message-box" [class.self]="message.senderId === currentUserId">
+    <p class="message-text">{{ message.content }}</p>
+    <span class="timestamp">{{ message.timestamp | date:'shortTime' }}</span>
+  </div>
+
+
+
+
 
   <div class="chat-input">
     <input type="text" [(ngModel)]="newMessage" placeholder="Napisz wiadomość..." />
