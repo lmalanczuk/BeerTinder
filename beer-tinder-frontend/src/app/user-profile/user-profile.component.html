@@ -1,0 +1,20 @@
+<div class="user-profile">
+  <div class="profile-header">
+    <img
+      class="profile-image"
+      src="{{ user.imageUrl }}"
+      alt="{{ user.name }}"
+    />
+    <h1 class="profile-name">{{ user.name }}</h1>
+  </div>
+
+  <div class="profile-info">
+    <p><strong>Email✉️:</strong> {{ user.email }}</p>
+    <p><strong>Telefon📞:</strong> {{ user.phone }}</p>
+    <p><strong>Adres🏠:</strong> {{ user.address }}</p>
+    <p><strong>Bio🌐:</strong> {{ user.bio }}</p>
+  </div>
+</div>
+<div class="centered-button">
+  <p-button pButton type="back-button" label="Back to Home" icon="pi pi-home" (click)="goToHome()"></p-button>
+</div>

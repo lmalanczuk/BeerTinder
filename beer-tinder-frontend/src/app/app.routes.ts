@@ -8,5 +8,7 @@ export const routes: Routes = [
   { path: 'matches', loadComponent: () => import('./components/match/match.component').then(m => m.MatchComponent) },
   { path: 'chat', loadComponent: () => import('./components/chat/chat-view/chat-view.component').then(m => m.ChatViewComponent) },
   { path: 'chat/:chatRoomId', loadComponent: () => import('./components/chat/chat.component').then(m => m.ChatComponent) },
-  { path: 'login', loadComponent: () => import('./components/auth/login/login.component').then(m => m.LoginComponent) }
+  { path: 'login', loadComponent: () => import('./components/auth/login/login.component').then(m => m.LoginComponent) },
+  { path: 'user-profile', loadComponent: () => import('./user-profile/user-profile.component').then(m => m.UserProfileComponent) }
 ];
+

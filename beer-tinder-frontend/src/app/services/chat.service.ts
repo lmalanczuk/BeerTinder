@@ -28,7 +28,7 @@ export class ChatService {
   }
 
   getMessages(chatRoomId: number): Observable<Message[]> {
-    return this.http.get<Message[]>(`${this.apiUrl}/${chatRoomId}/messages`);
+    return this.http.get<Message[]>(`${this.apiUrl}/${chatRoomId}/messages`).pipe(map(messages => messages.sort((a, b)=> new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime())));
   }
 
   sendMessage(chatRoomId: number, sender: string, content: string): Observable<void> {

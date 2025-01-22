@@ -16,7 +16,7 @@ export class LoginComponent {
   constructor(private router: Router) {}
 
   onLogin(): void {
-    if (this.email === 'user@example.com' && this.password === 'password') {
+    if (this.email === 'katarzyna_kowalczyk@example.com' && this.password === 'password') {
       alert('Login successful!');
       this.router.navigate(['/home']);
     } else {
