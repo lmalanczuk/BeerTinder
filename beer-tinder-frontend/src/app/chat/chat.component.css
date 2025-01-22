@@ -1,0 +1,71 @@
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full height of the viewport */
+  overflow: hidden; /* Prevents content from spilling outside */
+  background: #f9f9f9; /* Optional background color for the chat */
+}
+
+.chat-header {
+  text-align: center;
+  font-weight: bold;
+  padding: 10px;
+  background: #f0f0f0; /* Optional: Different background for header */
+  border-bottom: 2px solid #ddd; /* Optional border for separation */
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+.message-box {
+  margin: 5px;
+  padding: 10px;
+  border-radius: 8px;
+  word-wrap: break-word;
+}
+
+.message-box.self {
+  background: #d1ffd6; /* Background for self messages */
+  margin-left: auto; /* Align to right for self messages */
+}
+
+.message-box:not(.self) {
+  background: #f1f1f1; /* Background for other messages */
+  margin-right: auto; /* Align to left for received messages */
+}
+
+.chat-body {
+  flex: 1; /* Take up all available space between header and input */
+  overflow-y: auto; /* Allow vertical scrolling if needed */
+  padding: 10px; /* Add some spacing for messages */
+  display: flex;
+  flex-direction: column-reverse; /* OPTIONAL: For reverse message order visually */
+}
+
+.chat-input {
+  display: flex;
+  padding: 10px;
+  background: #fff;
+  border-top: 2px solid #ddd; /* Optional border for separation */
+  flex-shrink: 0; /* Prevent the input from shrinking */
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.chat-input button {
+  padding: 10px 20px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.chat-input button:hover {
+  background: #0056b3;
+}
