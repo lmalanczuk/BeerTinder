@@ -10,6 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "\"user\"") // Escape'owanie nazwy tabeli
 public class User {
 
     @Id
